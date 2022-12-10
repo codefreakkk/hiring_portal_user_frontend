@@ -3,14 +3,37 @@ import "../user_assets/css/stylef5b6.css";
 import "../utilities/style.css";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  let token = null;
+  useEffect(() => {
+    token = localStorage.getItem("token");
+    if (token != null) {
+      setLoggedIn(true);
+      navigate("/");
+      console.log(loggedIn);
+    } else {
+      console.log("Not logged in");
+      setLoggedIn(false);
+    }
+  }, []);
+
   // animate navbar on scroll
   const [state, setState] = useState(false);
   window.addEventListener("scroll", handleScroll);
+
   function handleScroll() {
     if (window.pageYOffset > 200) setState(true);
     else setState(false);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    navigate("/register");
   }
 
   return (
@@ -21,11 +44,10 @@ function Header() {
             <div class="header-left">
               <div class="header-logo">
                 <NavLink to="/">
-
-                <a class="d-flex" style={{cursor: "pointer"}}>
-                  {/* <img alt="jobBox" src="assets/imgs/template/jobhub-logo.svg">  */}
-                  <h3>HireMe</h3>
-                </a>
+                  <a class="d-flex" style={{ cursor: "pointer" }}>
+                    {/* <img alt="jobBox" src="assets/imgs/template/jobhub-logo.svg">  */}
+                    <h3>HireMe</h3>
+                  </a>
                 </NavLink>
               </div>
             </div>
@@ -59,14 +81,27 @@ function Header() {
             </div>
             <div class="header-right">
               <div class="block-signin">
-                <NavLink to="/register">
-                  <span class="text-link-bd-btom hover-up">Register</span>
-                </NavLink>
-                <NavLink to="/signup">
-                  <span class="btn btn-default btn-shadow ml-40 hover-up">
-                    Sign in
+                {loggedIn === true ? (
+                  <></>
+                ) : (
+                  <NavLink to="/register">
+                    <span class="text-link-bd-btom hover-up">Register</span>
+                  </NavLink>
+                )}
+                {loggedIn === true ? (
+                  <span
+                    class="btn btn-default btn-shadow ml-40 hover-up"
+                    onClick={handleLogout}
+                  >
+                    Logout
                   </span>
-                </NavLink>
+                ) : (
+                  <NavLink to="/signup">
+                    <span class="btn btn-default btn-shadow ml-40 hover-up">
+                      Sign in
+                    </span>
+                  </NavLink>
+                )}
               </div>
             </div>
           </div>

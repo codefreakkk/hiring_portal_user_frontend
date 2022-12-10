@@ -5,12 +5,14 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
+  const navigate = useNavigate();
 
   function handleSubmit() {
     if (
@@ -31,9 +33,9 @@ function Register() {
         userPassword: password,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.data.status == true) {
           alert("You have registered successfully");
+          navigate("/signup");
         } else if (response.data.status == false) {
           alert("Some error occured. User not registered");
         } else if (response.data.status == "email") {
