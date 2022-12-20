@@ -9,12 +9,10 @@ function Header() {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
 
-  let token = null;
   useEffect(() => {
-    token = localStorage.getItem("token");
+    let token = localStorage.getItem("token");
     if (token != null) {
       setLoggedIn(true);
-      navigate("/");
       console.log(loggedIn);
     } else {
       console.log("Not logged in");
@@ -33,6 +31,7 @@ function Header() {
 
   function handleLogout() {
     localStorage.removeItem("token");
+    setLoggedIn(false);
     navigate("/register");
   }
 
@@ -60,14 +59,13 @@ function Header() {
                   <NavLink to="/findjobs">
                     <li class="">Find Jobs</li>
                   </NavLink>
-                  {/* <NavLink to="/company">
-                  <li class="">
-                      Company
-                  </li>
-                  </NavLink> */}
-                  <NavLink to="/dashboard">
-                    <li class="">Dashboard</li>
-                  </NavLink>
+                  {loggedIn === true ? (
+                    <NavLink to="/dashboard">
+                      <li class="">Dashboard</li>
+                    </NavLink>
+                  ) : (
+                    <></>
+                  )}
                   <NavLink to="/contact">
                     <li class="">Contact</li>
                   </NavLink>

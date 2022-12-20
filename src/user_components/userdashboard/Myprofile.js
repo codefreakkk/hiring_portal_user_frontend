@@ -1,7 +1,24 @@
+import axios from "axios";
 import React from "react";
 import profile from "../../images/cv.png";
 
 function Myprofile() {
+  function handleSubmit() {
+    const token = localStorage.getItem("token");
+    if (token != null) {
+      const config = {
+        headers: {
+          Authorization: token,
+        },
+      };
+
+      axios
+        .post("http://localhost:8000/check", {}, config)
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err));
+    } else alert("Some error occured");
+  }
+
   return (
     <div class="tab-content">
       <div
@@ -118,7 +135,10 @@ function Myprofile() {
             <div class="border-bottom pt-10 pb-10"></div>
 
             <div class="box-button mt-15">
-              <button class="btn btn-apply-big font-md font-bold">
+              <button
+                class="btn btn-apply-big font-md font-bold"
+                onClick={handleSubmit}
+              >
                 Save All Changes
               </button>
             </div>

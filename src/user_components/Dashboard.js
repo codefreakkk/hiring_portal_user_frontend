@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import Myprofile from "./userdashboard/Myprofile";
 import Myjobs from "./userdashboard/Myjobs";
 import Tasks from "./userdashboard/Tasks";
 import Viewtask from "./userdashboard/Viewtask";
-import Footer from "./Footer";
 import Messages from "./userdashboard/Messages";
 import Viewmessage from "./userdashboard/Viewmessage";
+import CheckLoggedIn from "./CheckLoggedIn";
 
 function Dashboard() {
+  
   return (
     <>
+      <CheckLoggedIn />
       <Header />
       <main class="main">
         <section class="section-box mt-50">
@@ -62,13 +64,6 @@ function Dashboard() {
                       </span>
                     </div>
                   </NavLink>
-
-                  {/* <div class="border-bottom pt-10 pb-10"></div>
-                  <div class="mt-20 mb-20">
-                    <a class="link-red" href="#">
-                      Delete Account
-                    </a>
-                  </div> */}
                 </div>
               </div>
 

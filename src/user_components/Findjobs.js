@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Findjobslist from "./Findjobslist";
 import Footer from "./Footer";
 import { NavLink } from "react-router-dom";
 
 function Findjobs() {
+  const [fullTime, setFullTime] = useState("");
+  const [internShip, setInternShip] = useState("");
+  const [partTime, setPartTime] = useState("");
+  const [experience, setExperience] = useState(0);
+  const [jobName, setJobName] = useState("");
+  const [location, setLocation] = useState("");
+  const [jobCat, setJobCategory] = useState("");
+
   return (
     <>
       <Header />
-
       {/* section 1 */}
       <main className="main">
         <section class="section-box-2">
@@ -31,26 +38,17 @@ function Findjobs() {
                   data-wow-delay=".2s"
                 >
                   <form>
-                    <div class="box-industry" style={{ paddingTop: "4px" }}>
-                      <select class="form-input mr-10 select-active input-industry">
-                        <option value="0">Industry</option>
-                        <option value="1">Software</option>
-                        <option value="2">Finance</option>
-                        <option value="3">Recruting</option>
-                        <option value="4">Management</option>
-                        <option value="5">Advertising</option>
-                        <option value="6">Development</option>
-                      </select>
-                    </div>
-                    <select class="form-input mr-10 select-active">
-                      <option value="YE">Yemen</option>
-                      <option value="ZM">Zambia</option>
-                      <option value="ZW">Zimbabwe</option>
-                    </select>
+                    <input
+                      type="text"
+                      className="form-input input-keysearch mr-10"
+                      onChange={(e) => setJobName(e.target.value)}
+                      placeholder="Job name"
+                    />
                     <input
                       class="form-input input-keysearch mr-10"
                       type="text"
-                      placeholder="Your keyword... "
+                      onChange={(e) => setLocation(e.target.value)}
+                      placeholder="Location"
                     />
                     <button class="btn btn-default btn-find font-sm">
                       Search
@@ -83,8 +81,7 @@ function Findjobs() {
                       <Findjobslist />
                     </NavLink>
                     <NavLink to="jobdetails">
-
-                    <Findjobslist />
+                      <Findjobslist />
                     </NavLink>
                     <Findjobslist />
                   </div>
@@ -97,173 +94,147 @@ function Findjobs() {
                       <h5>
                         Advance Filter{" "}
                         <a class="link-reset" href="#">
-                          Reset
+                          {/* Reset */}
                         </a>
                       </h5>
                     </div>
-                    <div class="filter-block mb-30">
-                      <div class="form-group select-style select-style-icon">
-                        <select class="form-control form-icons select-active">
-                          <option>New York, US</option>
-                          <option>London</option>
-                          <option>Paris</option>
-                          <option>Berlin</option>
-                        </select>
-                        {/* <i class="fi-rr-marker"></i> */}
-                      </div>
-                    </div>
                     <div class="filter-block mb-20">
-                      <h5 class="medium-heading mb-15">Industry</h5>
+                      <h5 class="medium-heading mb-15">Job Type</h5>
                       <div class="form-group">
                         <ul class="list-checkbox">
                           <li>
                             <label class="cb-container">
-                              <input type="checkbox" checked="checked" />
-                              <span class="text-small">All</span>
+                              <input
+                                type="checkbox"
+                                onChange={(e) => {
+                                  e.target.checked == true
+                                    ? setFullTime("1")
+                                    : setFullTime("");
+                                }}
+                              />
+                              <span class="text-small">Full Time</span>
                               <span class="checkmark"></span>
                             </label>
-                            <span class="number-item">180</span>
                           </li>
                           <li>
                             <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Software</span>
+                              <input
+                                type="checkbox"
+                                onChange={(e) => {
+                                  e.target.checked == true
+                                    ? setInternShip("3")
+                                    : setInternShip("");
+                                }}
+                              />
+                              <span class="text-small">Internship</span>
                               <span class="checkmark"></span>
                             </label>
-                            <span class="number-item">12</span>
+                          </li>
+                          <li>
+                            <label class="cb-container">
+                              <input
+                                type="checkbox"
+                                onChange={(e) => {
+                                  e.target.checked == true
+                                    ? setPartTime("2")
+                                    : setPartTime("");
+                                }}
+                              />
+                              <span class="text-small">Part Time</span>
+                              <span class="checkmark"></span>
+                            </label>
                           </li>
                         </ul>
-                      </div>
-                    </div>
-                    <div class="filter-block mb-20">
-                      <h5 class="medium-heading mb-25">Salary Range</h5>
-                      <div class="list-checkbox pb-20">
-                        {/* salary range. */}
                       </div>
                     </div>
                     <div class="filter-block mb-30">
                       <h5 class="medium-heading mb-10">Experience Level</h5>
-                      <div class="form-group">
+                      <div class="">
                         <ul class="list-checkbox">
                           <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Internship</span>
-                              <span class="checkmark"></span>
+                            <label class="">
+                              <input
+                                type="radio"
+                                value="0"
+                                onChange={(e) => setExperience(e.target.value)}
+                                style={{ width: 25, height: 15 }}
+                                name="exp"
+                              />{" "}
+                              0 Years
                             </label>
-                            <span class="number-item">56</span>
                           </li>
                           <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Entry Level</span>
-                              <span class="checkmark"></span>
+                            <label class="">
+                              <input
+                                type="radio"
+                                value="1"
+                                onChange={(e) => setExperience(e.target.value)}
+                                style={{ width: 25, height: 15 }}
+                                name="exp"
+                              />{" "}
+                              1 Years
                             </label>
-                            <span class="number-item">87</span>
                           </li>
                           <li>
-                            <label class="cb-container">
-                              <input type="checkbox" checked="checked" />
-                              <span class="text-small">Associate</span>
-                              <span class="checkmark"></span>
+                            <label class="">
+                              <input
+                                type="radio"
+                                value="2"
+                                onChange={(e) => setExperience(e.target.value)}
+                                style={{ width: 25, height: 15 }}
+                                name="exp"
+                              />{" "}
+                              2 Years
                             </label>
-                            <span class="number-item">24</span>
                           </li>
                           <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Mid Level</span>
-                              <span class="checkmark"></span>
+                            <label class="">
+                              <input
+                                type="radio"
+                                value="3"
+                                onChange={(e) => setExperience(e.target.value)}
+                                style={{ width: 25, height: 15 }}
+                                name="exp"
+                              />{" "}
+                              3 Years
                             </label>
-                            <span class="number-item">45</span>
                           </li>
                           <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Director</span>
-                              <span class="checkmark"></span>
+                            <label class="">
+                              <input
+                                type="radio"
+                                value="4"
+                                onChange={(e) => setExperience(e.target.value)}
+                                style={{ width: 25, height: 15 }}
+                                name="exp"
+                              />{" "}
+                              4 Years
                             </label>
-                            <span class="number-item">76</span>
                           </li>
                           <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Executive</span>
-                              <span class="checkmark"></span>
+                            <label class="">
+                              <input
+                                type="radio"
+                                value="5"
+                                onChange={(e) => setExperience(e.target.value)}
+                                style={{ width: 25, height: 15 }}
+                                name="exp"
+                              />{" "}
+                              5 Years
                             </label>
-                            <span class="number-item">89</span>
                           </li>
                         </ul>
                       </div>
                     </div>
                     <div class="filter-block mb-30">
-                      <h5 class="medium-heading mb-10">Onsite/Remote</h5>
-                      <div class="form-group">
-                        <ul class="list-checkbox">
-                          <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">On-site</span>
-                              <span class="checkmark"></span>
-                            </label>
-                            <span class="number-item">12</span>
-                          </li>
-                          <li>
-                            <label class="cb-container">
-                              <input type="checkbox" checked="checked" />
-                              <span class="text-small">Remote</span>
-                              <span class="checkmark"></span>
-                            </label>
-                            <span class="number-item">65</span>
-                          </li>
-                          <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Hybrid</span>
-                              <span class="checkmark"></span>
-                            </label>
-                            <span class="number-item">58</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="filter-block mb-20">
-                      <h5 class="medium-heading mb-15">Job type</h5>
-                      <div class="form-group">
-                        <ul class="list-checkbox">
-                          <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Full Time</span>
-                              <span class="checkmark"></span>
-                            </label>
-                            <span class="number-item">25</span>
-                          </li>
-                          <li>
-                            <label class="cb-container">
-                              <input type="checkbox" checked="checked" />
-                              <span class="text-small">Part Time</span>
-                              <span class="checkmark"></span>
-                            </label>
-                            <span class="number-item">64</span>
-                          </li>
-                          <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Remote Jobs</span>
-                              <span class="checkmark"></span>
-                            </label>
-                            <span class="number-item">78</span>
-                          </li>
-                          <li>
-                            <label class="cb-container">
-                              <input type="checkbox" />
-                              <span class="text-small">Freelancer</span>
-                              <span class="checkmark"></span>
-                            </label>
-                            <span class="number-item">97</span>
-                          </li>
-                        </ul>
+                      <h5 class="medium-heading mb-15">Job Category</h5>{jobCat}
+                      <div class="form-group select-style select-style-icon">
+                        <select onChange={(e) => setJobCategory(e.target.value)}>
+                          <option value="">Any</option>
+                          <option value="frontend">Front End</option>
+                          <option value="backend">Backend</option>
+                          <option value="fullstack">Full Stack</option>
+                        </select>
                       </div>
                     </div>
                   </div>

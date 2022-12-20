@@ -13,6 +13,11 @@ function Login() {
   const navigate = useNavigate();
 
   function handleSubmit() {
+    // validate textfields
+    if (email.length == 0 || password.length == 0) {
+      alert("Email or password cannot be blank")
+      return;
+    }
     axios.post("http://localhost:8000/api/login", {
       email,
       password,
