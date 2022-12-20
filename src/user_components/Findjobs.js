@@ -1,17 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Findjobslist from "./Findjobslist";
 import Footer from "./Footer";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
+import { Oval } from "react-loader-spinner";
 
 function Findjobs() {
-  const [fullTime, setFullTime] = useState("");
+  const [fullTime, setFullTime] = useState("1");
   const [internShip, setInternShip] = useState("");
   const [partTime, setPartTime] = useState("");
   const [experience, setExperience] = useState(0);
   const [jobName, setJobName] = useState("");
   const [location, setLocation] = useState("");
-  const [jobCat, setJobCategory] = useState("");
+  const [jobCat, setJobCategory] = useState("any");
+  const [jobs, setJobs] = useState([]);
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/getalljobs")
+      .then((response) => {
+        setJobs(response.data);
+        setLoader(false);
+      })
+      .catch((err) => {
+        alert("Some error occured");
+        console.log(err);
+      });
+  }, []);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setLoader(true)
+    axios
+      .post("http://localhost:8000/api/filterusersjobs", {
+        fullTime: fullTime,
+        internShip: internShip,
+        partTime: partTime,
+        experience: experience,
+        jobName: jobName,
+        location: location,
+        jobCat: jobCat,
+      })
+      .then((response) => {
+        setJobs(response.data);
+        setLoader(false);
+      })
+      .catch((err) => {
+        alert("Some error occured");
+        console.log(err);
+      });
+  }
 
   return (
     <>
@@ -23,7 +63,7 @@ function Findjobs() {
             <div class="banner-hero banner-single banner-single-bg">
               <div class="block-banner text-center">
                 <h3 class="wow animate__animated animate__fadeInUp">
-                  <span class="color-brand-2">22 Jobs</span> Available Now
+                  <span class="color-brand-2"> Jobs</span> Available Now
                 </h3>
                 <div
                   class="font-sm color-text-paragraph-2 mt-10 wow animate__animated animate__fadeInUp"
@@ -50,7 +90,10 @@ function Findjobs() {
                       onChange={(e) => setLocation(e.target.value)}
                       placeholder="Location"
                     />
-                    <button class="btn btn-default btn-find font-sm">
+                    <button
+                      class="btn btn-default btn-find font-sm"
+                      onClick={handleSubmit}
+                    >
                       Search
                     </button>
                   </form>
@@ -68,22 +111,47 @@ function Findjobs() {
                 <div class="content-page">
                   <div class="box-filters-job">
                     <div class="row">
-                      <div class="col-xl-6 col-lg-5">
+                      {/* <div class="col-xl-6 col-lg-5">
                         <span class="text-small text-showing">
                           Showing <strong>944 </strong>
                           jobs
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div class="row display-list">
-                    <NavLink to="jobdetails">
-                      <Findjobslist />
-                    </NavLink>
-                    <NavLink to="jobdetails">
-                      <Findjobslist />
-                    </NavLink>
-                    <Findjobslist />
+                    {jobs.length == 0 ? "No jobs to show" : " "}
+                    {loader == true ? (
+                      <div>
+                        <Oval
+                          height="40"
+                          width="40"
+                          color="#556de6cd"
+                          radius="20"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                          visible={true}
+                          ariaLabel="rings-loading"
+                        />
+                      </div>
+                    ) : (
+                      jobs.map((data, index) => {
+                        return (
+                          <NavLink to={`jobdetails/${data._id}`}>
+                            <Findjobslist
+                              key={index}
+                              jobTitle={data.jobTitle}
+                              imageUrl={data.imageUrl}
+                              jobType={data.jobType}
+                              location={data.location}
+                              keywords={data.keywords}
+                              oname={data.oname}
+                              desc={data.jobDescription}
+                            />
+                          </NavLink>
+                        );
+                      })
+                    )}
                   </div>
                 </div>
               </div>
@@ -227,9 +295,11 @@ function Findjobs() {
                       </div>
                     </div>
                     <div class="filter-block mb-30">
-                      <h5 class="medium-heading mb-15">Job Category</h5>{jobCat}
+                      <h5 class="medium-heading mb-15">Job Category</h5>
                       <div class="form-group select-style select-style-icon">
-                        <select onChange={(e) => setJobCategory(e.target.value)}>
+                        <select
+                          onChange={(e) => setJobCategory(e.target.value)}
+                        >
                           <option value="">Any</option>
                           <option value="frontend">Front End</option>
                           <option value="backend">Backend</option>
