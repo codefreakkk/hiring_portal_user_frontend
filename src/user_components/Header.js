@@ -12,6 +12,7 @@ function Header() {
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token != null) {
+      if (token.length == 0) localStorage.removeItem("token");
       setLoggedIn(true);
       console.log(loggedIn);
     } else {

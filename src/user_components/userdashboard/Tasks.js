@@ -1,22 +1,51 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Taskschild from "./Taskschild";
 
 function Tasks() {
+  const [loader, setLoader] = useState(true);
+  const [interview, setInterview] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: token,
+      },
+    };
+    axios.get(`http://localhost:8000/api/getallinterviews`, config)
+    .then((response) => {
+      setInterview(response.data)
+      setLoader(false);
+    })
+    .catch((err) => console.log(err));
+
+  }, []);
+
   return (
     <div class="tab-content">
-      <h3 class="mt-0 mb-15 color-brand-1">Tasks</h3>
+      <h3 class="mt-0 mb-15 color-brand-1">Interview Details</h3>
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Company Name</th>
-            <th scope="col">Applied Date</th>
-            <th scope="col">Task Deadline</th>
+            <th scope="col">Company</th>
+            <th scope="col">Interview Date</th>
             <th scope="col">Tasks</th>
           </tr>
         </thead>
         <tbody>
-          <Taskschild/>
-          <Taskschild/>
+          {loader == true ? <></> : 
+            interview.map((data, index) => {
+              return (
+                <Taskschild 
+                  key={index}
+                  oname={data.oname}
+                  date={data.sheduleDate}
+                  detail={data.interviewDetails}
+                />
+              )
+            })
+          }
         </tbody>
       </table>
     </div>

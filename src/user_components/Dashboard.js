@@ -49,12 +49,12 @@ function Dashboard() {
                         style={{ width: "290px", fontSize: "12px" }}
                         class="btn btn-border people-icon mb-20"
                       >
-                        Tasks
+                        Interview
                       </span>
                     </div>
                   </NavLink>
 
-                  <NavLink to="messages">
+                  {/* <NavLink to="messages">
                     <div>
                       <span
                         style={{ width: "290px", fontSize: "12px" }}
@@ -63,7 +63,7 @@ function Dashboard() {
                         Messages
                       </span>
                     </div>
-                  </NavLink>
+                  </NavLink> */}
                 </div>
               </div>
 

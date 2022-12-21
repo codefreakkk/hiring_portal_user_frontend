@@ -19,7 +19,7 @@ function Findjobs() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/getalljobs")
+      .get("http://localhost:8000/api/getalljobsuser")
       .then((response) => {
         setJobs(response.data);
         setLoader(false);

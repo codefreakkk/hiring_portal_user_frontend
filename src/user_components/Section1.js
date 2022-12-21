@@ -27,11 +27,6 @@ function Section1() {
                     data-wow-delay=".2s"
                   >
                     <form>
-                      <select class="form-input mr-10 select-active">
-                        <option value="YE">Yemen</option>
-                        <option value="ZM">Zambia</option>
-                        <option value="ZW">Zimbabwe</option>
-                      </select>
                       <input
                         class="form-input input-keysearch mr-10"
                         type="text"

@@ -1,16 +1,16 @@
 import React from 'react'
 import { NavLink } from "react-router-dom";
 
-function Taskschild() {
+function Taskschild({oname, date, detail}) {
   return (
     <>
         <tr>
-            <td>Infosys</td>
-            <td>12-20-22</td>
-            <td>12-20-22</td>
-            <NavLink to="view">
+            <td>{oname}</td>
+            <td>{date}</td>
+            <td>{detail}</td>
+            {/* <NavLink to="view">
             <td>view</td>
-            </NavLink>
+            </NavLink> */}
           </tr>
     </>
   )
